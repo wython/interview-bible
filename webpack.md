@@ -24,8 +24,17 @@
 
 
 ## webpack优化
+### 开发环境优化
+开发环境优化以打包效率为准，4.0之后有mode配置来区分是开发环境还是生产环境，对于粒度的区分可以不像以前那么细腻，开发环境下主要包括
+1. 提取公共库打包模块代码，即DLLPlugin 和 DllReferencePlugin - 把第三方库代码分离开，并且每次文件更改的时候，它只会打包该项目自身的代码。通过 DllReferencePlugin 关联 vendor-manifest.json映射文件读取第三方库；
+2. 配置include等保证webpack能最小化跟踪文件夹，比如大部分情况下node_module代码无需在rule中追踪，像antd这种有时候需要按需导出则单独引入
+3. happypack这类辅助性质等优化
+4. 热更新配置，这种属于开发效果优化，提升开发环境
+
+### 生产环境下
+生产环境以线上首屏渲染为准，不需要太多关注打包效率，而应该关注发布后等性能，例如缓存等方面配置
 * CommonsChunkPlugin - 抽离第三方库单独打js；
-* DLLPlugin 和 DllReferencePlugin - 把第三方库代码分离开，并且每次文件更改的时候，它只会打包该项目自身的代码。通过 DllReferencePlugin 关联 vendor-manifest.json映射文件读取第三方库；
+* 
 
 ## babel中preset和plugin的区别
 preset是plugin的集合。
